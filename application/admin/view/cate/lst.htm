@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html><head>
+	    <meta charset="utf-8">
+    <title>Wshop</title>
+
+    <meta name="description" content="Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--Basic Styles-->
+    <link href="__admin__/style/bootstrap.css" rel="stylesheet">
+    <link href="__admin__/style/font-awesome.css" rel="stylesheet">
+    <link href="__admin__/style/weather-icons.css" rel="stylesheet">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="__admin__/style/beyond.css" rel="stylesheet" type="text/css">
+    <link href="__admin__/style/demo.css" rel="stylesheet">
+    <link href="__admin__/style/typicons.css" rel="stylesheet">
+    <link href="__admin__/style/animate.css" rel="stylesheet">
+    <style>
+        .active span{
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #2dc3e8;
+            border-color: #2dc3e8;
+        }
+    </style>
+</head>
+<body>
+	<!-- 头部 -->
+	{include file="common/top"}
+
+	<!-- /头部 -->
+	
+	<div class="main-container container-fluid">
+		<div class="page-container">
+			<!-- Page Sidebar -->
+            {include file="common/left"}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                                        <li>
+                        <a href="{:url('index/index')}">系统</a>
+                    </li>
+                                        <li class="active">分类管理</li>
+                                        </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+                    
+<button type="button" tooltip="添加分类" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '{:url('cate/add')}'"> <i class="fa fa-plus"></i> Add
+</button>
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="flip-scroll">
+                    <form id='myform'>
+                    <table class="table table-bordered table-hover">
+                        <thead class="">
+                            <tr>
+                                <th class="text-center" width="5%">ID</th>
+                                <th >分类名称</th>
+                                <th class="text-center" width="18%">类型</th>
+                                <th class="text-center" width="6%">显示到导航栏</th>
+                                <th class="text-center" width="6%">排序</th>
+                                <th class="text-center" width="6%">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {volist name="cateRes" id="cate"}
+                                <tr id={$cate.id}>
+                                    <td align="center">{$cate.id}</td>
+                                    <td><?php echo str_repeat('-',$cate['level']*8)?>{$cate.cate_name}</td>
+                                    <td align="center">
+                                        {if condition="$cate['cate_type'] eq 1"}
+                                        系统分类
+                                        {elseif condition="$cate['cate_type'] eq 2" /}
+                                        帮助分类
+                                        {elseif condition="$cate['cate_type'] eq 3" /}
+                                        网店帮助
+                                        {elseif condition="$cate['cate_type'] eq 4" /}
+                                        网店信息
+                                        {else /}
+                                        普通分类
+                                        {/if}
+                                    </td>
+                                    <td align="center">
+                                        {if condition="$cate['show_nav'] eq 1"}
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        {else/}
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        {/if}
+                                    </td>
+                                    <td align="center">
+                                        <input type="text" name="sort[{$cate.id}]" value="{$cate.sort}"  style="width:55px;text-align: center;" />
+                                    </td>
+                                    <td align="center">
+                                        <a modurl="{:url('cate/edit',array('id'=>$cate['id']))}" class="btn btn-azure btn-sm shiny edit" style="background-color: #2dc3e8;">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        {notin name="$cate['id']" value="1,2,3"}
+                                        <a href="#" onClick="ajaxdel(this);" class="btn btn-darkorange btn-sm shiny">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                        {else /}
+                                        <a href="#"  disabled="disabled" class="btn btn-darkorange btn-sm shiny">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                        {/notin}
+                                    </td>
+                                </tr>
+                            {/volist}
+                            <tr>
+                                <td colspan="6" align="right" style="padding-right:7.5%;">
+                                    <input  class="btn btn-primary btn-sm shiny" type="button" id='sort' value='提交'>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                </div>
+            
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+		</div>	
+	</div>
+
+	    <!--Basic Scripts-->
+    <script src="__admin__/style/jquery_002.js"></script>
+    <script src="__admin__/style/bootstrap.js"></script>
+    <script src="__admin__/style/jquery.js"></script>
+    <!--Beyond Scripts-->
+    <script src="__admin__/style/beyond.js"></script>
+    <script src="__admin__/layer/layer.js"></script>
+    <script type="text/javascript">
+        $("#sort").click(function(){
+            $.ajax({
+                type:"post",
+                url:"{:url('cate/lst')}",
+                data:$("#myform").serialize(),
+                success:function(data){
+                    if(data.error==1){
+                        layer.msg(data.msg, {icon: 1});
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);                         
+                    }
+                }
+            })
+        })
+        $(".edit").click(function(){
+            var modurl = $(this).attr("modurl");    // 获取 要打开的链接地址
+            //alert(modurl);
+            layer.open({
+                type: 2,
+                title: '修改分类',
+                maxmin: true,
+                shadeClose: false, //开启点击遮罩关闭层
+                area : ['800px', '460px'],
+                offset : ['100px', ''],
+                content: modurl   // 弹出层 iframe 要打开的链接地址
+            });
+        })
+        function ajaxdel(obj){
+            layer.confirm('你确定要删除吗', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                var tr=$(obj).parent().parent();
+                var id=tr.attr('id');
+                $.ajax({
+                    url:"{:url('cate/del')}",
+                    type:"post",
+                    data:{'id':id},
+                    success:function(data){
+                        if(data.error==1){
+                            //tr.remove();
+                            layer.msg(data.msg, {icon: 1});
+                            setTimeout(function(){
+                                window.location.reload();
+                            },1000);
+                        }else{
+                            layer.msg(data.msg, {icon: 2});
+                        }
+                    }
+                })
+                
+            });
+        }
+    </script>
+
+
+</body></html>

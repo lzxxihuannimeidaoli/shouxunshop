@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html><head>
+	    <meta charset="utf-8">
+    <title>Wshop</title>
+
+    <meta name="description" content="Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--Basic Styles-->
+    <link href="__admin__/style/bootstrap.css" rel="stylesheet">
+    <link href="__admin__/style/font-awesome.css" rel="stylesheet">
+    <link href="__admin__/style/weather-icons.css" rel="stylesheet">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="__admin__/style/beyond.css" rel="stylesheet" type="text/css">
+    <link href="__admin__/style/demo.css" rel="stylesheet">
+    <link href="__admin__/style/typicons.css" rel="stylesheet">
+    <link href="__admin__/style/animate.css" rel="stylesheet">
+    <style>
+        .active span{
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #2dc3e8;
+            border-color: #2dc3e8;
+        }
+    </style>
+</head>
+<body>
+	<!-- 头部 -->
+	{include file="common/top"}
+
+	<!-- /头部 -->
+	
+	<div class="main-container container-fluid">
+		<div class="page-container">
+			<!-- Page Sidebar -->
+            {include file="common/left"}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                                        <li>
+                        <a href="{:url('index/index')}">系统</a>
+                    </li>
+                                        <li class="active">商品属性管理</li>
+                                        </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+                    
+<button type="button" tooltip="添加属性" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '{:url('attr/add')}'"> <i class="fa fa-plus"></i> Add
+</button>
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="flip-scroll">
+                    <form id='myform'>
+                    <table class="table table-bordered table-hover">
+                        <thead class="">
+                            <tr>
+                                <th class="text-center" width="5%">ID</th>
+                                <th class="text-center">属性名称</th>
+                                <th class="text-center" width="12%">属性类型</th>
+                                <th class="text-center" width="12%">所属类型</th>
+                                <th class="text-center">属性值</th>
+                                <th class="text-center" width="8%">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {volist name="attrRes" id="attr"}
+                                <tr id={$attr.id}>
+                                    <td align="center">{$attr.id}</td>
+                                    <td align="center">{$attr.attr_name}</td>
+                                    <td align="center">
+                                        {if condition="$attr['attr_type'] eq 1"}单选{else /}唯一{/if}
+                                    </td>
+                                    <td align="center">{$attr.type_name}</td>
+                                    <td align="center">{$attr.attr_values}</td>
+                                    <td align="center">
+                                        <a href="{:url('attr/edit',array('id'=>$attr['id']))}" class="btn btn-azure btn-sm shiny edit" style="background-color: #2dc3e8;">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="#" onClick="ajaxdel(this);" class="btn btn-darkorange btn-sm shiny">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {/volist}
+                        </tbody>
+                    </table>
+                </form>
+                </div>
+            
+                <div>
+                    {$attrRes->render()}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+		</div>	
+	</div>
+
+	    <!--Basic Scripts-->
+    <script src="__admin__/style/jquery_002.js"></script>
+    <script src="__admin__/style/bootstrap.js"></script>
+    <script src="__admin__/style/jquery.js"></script>
+    <!--Beyond Scripts-->
+    <script src="__admin__/style/beyond.js"></script>
+    <script src="__admin__/layer/layer.js"></script>
+    <script type="text/javascript">
+
+
+        function ajaxdel(obj){
+            layer.confirm('你确定要删除吗', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                var tr=$(obj).parent().parent();
+                var id=tr.attr('id');
+                $.ajax({
+                    url:"{:url('attr/del')}",
+                    type:"post",
+                    data:{'id':id},
+                    success:function(data){
+                        if(data.error==1){
+                            //tr.remove();
+                            layer.msg(data.msg, {icon: 1});
+                            setTimeout(function(){
+                                window.location.reload();
+                            },1000);
+                        }else{
+                            layer.msg(data.msg, {icon: 2});
+                        }
+                    }
+                })
+                
+            });
+        }
+    </script>
+
+
+</body></html>

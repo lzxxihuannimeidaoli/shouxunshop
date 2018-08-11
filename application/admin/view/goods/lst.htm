@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html><head>
+	    <meta charset="utf-8">
+    <title>Wshop</title>
+
+    <meta name="description" content="Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--Basic Styles-->
+    <link href="__admin__/style/bootstrap.css" rel="stylesheet">
+    <link href="__admin__/style/font-awesome.css" rel="stylesheet">
+    <link href="__admin__/style/weather-icons.css" rel="stylesheet">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="__admin__/style/beyond.css" rel="stylesheet" type="text/css">
+    <link href="__admin__/style/demo.css" rel="stylesheet">
+    <link href="__admin__/style/typicons.css" rel="stylesheet">
+    <link href="__admin__/style/animate.css" rel="stylesheet">
+    <style>
+        .active span{
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #2dc3e8;
+            border-color: #2dc3e8;
+        }
+    </style>
+</head>
+<body>
+	<!-- 头部 -->
+	{include file="common/top"}
+
+	<!-- /头部 -->
+	
+	<div class="main-container container-fluid">
+		<div class="page-container">
+			<!-- Page Sidebar -->
+            {include file="common/left"}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                                        <li>
+                        <a href="{:url('index/index')}">系统</a>
+                    </li>
+                                        <li class="active">商品管理</li>
+                                        </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+                    
+<button type="button" tooltip="添加品牌" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '{:url('goods/add')}'"> <i class="fa fa-plus"></i> Add
+</button>
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="flip-scroll">
+                    <form id='myform'>
+                        <table class="table table-bordered table-hover">
+                            <thead class="">
+                                <tr>
+                                    <th class="text-center" >ID</th>
+                                    <th class="text-center" >名称</th>
+                                    <th class="text-center" >编号</th>
+                                    <th class="text-center" >缩略图</th>
+                                    <th class="text-center" >市场价</th>
+                                    <th class="text-center" >本店价</th>
+                                    <th class="text-center" >上架</th>
+                                    <th class="text-center" >栏目</th>
+                                    <th class="text-center" >品牌</th>
+                                    <th class="text-center" >类型</th>
+                                    <th class="text-center" >重量</th>
+                                    <th class="text-center" >单位</th>
+                                    <th class="text-center" >库存量</th>
+                                    <th class="text-center" >操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {volist name="goodsRes" id="goods"}
+                                    <tr id="{$goods.id}">
+                                        <td align="center">{$goods.id}</td>
+                                        <td align="center">{$goods.goods_name|cut_str=###,13}</td>
+                                        <td align="center">{$goods.goods_code}</td>
+                                        <td align="center">{if condition="$goods['sm_thumb'] neq ''"}<img src="__uploads__/{$goods.sm_thumb}" height="30">{else /}暂无主图{/if}</td>
+                                        <td align="center">{$goods.market_price}</td>
+                                        <td align="center">{$goods.shop_price}</td>
+                                        <td align="center">{if condition="$goods['on_sale'] eq 1"}已上架{else /}未上架{/if}</td>
+                                        <td align="center">{if condition="$goods['cate_name']"}{$goods.cate_name}{else /}未设置{/if}</td>
+                                        <td align="center">{if condition="$goods['brand_name']"}{$goods.brand_name}{else /}未设置{/if}</td>
+                                        <td align="center">{if condition="$goods['type_name']"}{$goods.type_name}{else /}未设置{/if}</td>
+                                        <td align="center">{$goods.goods_weight}</td>
+                                        <td align="center">{$goods.weight_unit}</td>
+                                        <td align="center">{if condition="$goods['gn']"}{$goods.gn}{else /}0{/if}</td>
+                                        <td align="center">
+                                            <a href="{:url('goods/product',array('id'=>$goods['id']))}" class="btn btn-palegreen btn-sm shiny">
+                                                <i class="fa fa-list"></i>库存
+                                            </a>
+                                            <a href="{:url('edit',array('id'=>$goods['id']))}" class="btn btn-azure btn-sm shiny">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a href="#" onClick="ajaxdel(this);" class="btn btn-darkorange btn-sm shiny">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {/volist}
+<!--                                <tr>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div style="padding-top: 15px;text-align: right;">
+                    {$goodsRes->render()}
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+		</div>	
+	</div>
+
+	    <!--Basic Scripts-->
+    <script src="__admin__/style/jquery_002.js"></script>
+    <script src="__admin__/style/bootstrap.js"></script>
+    <script src="__admin__/style/jquery.js"></script>
+    <!--Beyond Scripts-->
+    <script src="__admin__/style/beyond.js"></script>
+    <script src="__admin__/layer/layer.js"></script>
+    <script type="text/javascript">
+        $("#sort").click(function(){
+            $.ajax({
+                type:"post",
+                url:"{:url('conf/lst')}",
+                data:$("#myform").serialize(),
+                success:function(data){
+                    if(data.error==1){
+                        layer.msg(data.msg, {icon: 1});
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);                         
+                    }
+                }
+            })
+        })
+        function ajaxdel(obj){
+            layer.confirm('你确定要删除吗', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                var tr=$(obj).parent().parent();
+                var id=tr.attr('id');
+                $.ajax({
+                    url:"{:url('goods/del')}",
+                    type:"post",
+                    data:{'id':id},
+                    success:function(data){
+                        if(data.error==0){
+                            tr.remove();
+                            layer.msg(data.msg, {icon: 1});
+                            /*setTimeout(function(){
+                                window.location.reload();
+                            },2000);*/
+                        }else{
+                            layer.msg(data.msg, {icon: 2});
+                        }
+                    }
+                })
+                
+            });
+        }
+    </script>
+
+
+</body></html>

@@ -1,0 +1,19 @@
+                ╭══════════════╮
+               ║        小  川  编  程        ║
+  ╭═════ ┤   http://www.youhutong.com   ├══════╮
+ ║            ║     http://www.php510.cn     ║             ║
+ ║            ╰═══════════════╯             ║
+ ║                                                           ║
+ ║声明：                                                     ║
+ ║   1) 本站不保证所提供程序源码、资源的完整性和安全性。     ║
+ ║   2) 请在使用前查毒。                                     ║
+ ║   4) 转载本站提供的资源请勿删除本说明文件。               ║
+ ║   5) 本站提供的程序均为网上搜集，如果该程序涉及或侵害到您 ║
+ ║      的版权请立即写信通知我们。                           ║
+ ║                                                           ║
+ ║                                                           ║
+ ║      切勿用于商业用途，由此引起一切后果与本站无关。       ║
+ ║                                                           ║
+ ║     ╭══════════════════════╮      ║
+ ╰══┤     更多案例，更多教程，尽在小川编程网       ├ ══╯
+       ╰═══════════════════════╯

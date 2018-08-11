@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <title>Wshop</title>
+
+    <meta name="description" content="Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--Basic Styles-->
+    <link href="__admin__/style/bootstrap.css" rel="stylesheet">
+    <link href="__admin__/style/font-awesome.css" rel="stylesheet">
+    <link href="__admin__/style/weather-icons.css" rel="stylesheet">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="__admin__/style/beyond.css" rel="stylesheet" type="text/css">
+    <link href="__admin__/style/demo.css" rel="stylesheet">
+    <link href="__admin__/style/typicons.css" rel="stylesheet">
+    <link href="__admin__/style/animate.css" rel="stylesheet">
+    <style>
+        .active span{
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #2dc3e8;
+            border-color: #2dc3e8;
+        }
+    </style>
+</head>
+<body>
+<!-- 头部 -->
+{include file="common/top"}
+
+<!-- /头部 -->
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+        <!-- Page Sidebar -->
+        {include file="common/left"}
+        <!-- /Page Sidebar -->
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Page Breadcrumb -->
+            <div class="page-breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="{:url('index/index')}">系统</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /Page Breadcrumb -->
+
+            <!-- Page Body -->
+            <div class="page-body">
+
+                <!--<button type="button" tooltip="添加品牌" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '{:url('link/add')}'"> <i class="fa fa-plus"></i> Add
+                </button>-->
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="widget">
+                            <div class="widget-body">
+                                <div class="flip-scroll">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="">
+                                        <tr>
+                                            <th width="3%" colspan="2">系统信息</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tr>
+                                            <td width="30%">网站地址</td>
+                                            <td >{$config.url}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="30%">网站目录</td>
+                                            <td>{$config.document_root}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="30%">服务器操作系统</td>
+                                            <td>{$config.server_os}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="30%">服务器端口</td>
+                                            <td>{$config.server_port}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="30%">服务器IP</td>
+                                            <td>{$config.server_ip}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="30%">WEB运行环境</td>
+                                            <td>{$config.server_soft}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="30%">MySQL数据库版本</td>
+                                            <td>{$config.mysql_version}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="30%">运行PHP版本</td>
+                                            <td>{$config.php_version}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td width="30%">最大上传限制</td>
+                                            <td>{$config.max_upload_size}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /Page Body -->
+        </div>
+        <!-- /Page Content -->
+    </div>
+</div>
+
+<!--Basic Scripts-->
+<script src="__admin__/style/jquery_002.js"></script>
+<script src="__admin__/style/bootstrap.js"></script>
+<script src="__admin__/style/jquery.js"></script>
+<!--Beyond Scripts-->
+<script src="__admin__/style/beyond.js"></script>
+</body></html>

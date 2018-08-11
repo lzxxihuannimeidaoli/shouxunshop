@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html><head>
+	    <meta charset="utf-8">
+    <title>Wshop</title>
+
+    <meta name="description" content="Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--Basic Styles-->
+    <link href="__admin__/style/bootstrap.css" rel="stylesheet">
+    <link href="__admin__/style/font-awesome.css" rel="stylesheet">
+    <link href="__admin__/style/weather-icons.css" rel="stylesheet">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="__admin__/style/beyond.css" rel="stylesheet" type="text/css">
+    <link href="__admin__/style/demo.css" rel="stylesheet">
+    <link href="__admin__/style/typicons.css" rel="stylesheet">
+    <link href="__admin__/style/animate.css" rel="stylesheet">
+    <style>
+        .active span{
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #2dc3e8;
+            border-color: #2dc3e8;
+        }
+    </style>
+</head>
+<body>
+	<!-- 头部 -->
+	{include file="common/top"}
+
+	<!-- /头部 -->
+	
+	<div class="main-container container-fluid">
+		<div class="page-container">
+			<!-- Page Sidebar -->
+            {include file="common/left"}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                                        <li>
+                        <a href="{:url('index/index')}">系统</a>
+                    </li>
+                                        <li class="active">配置管理</li>
+                                        </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+                    
+<button type="button" tooltip="添加品牌" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '{:url('conf/add')}'"> <i class="fa fa-plus"></i> Add
+</button>
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="flip-scroll">
+                    <form id='myform'>
+                        <table class="table table-bordered table-hover">
+                            <thead class="">
+                                <tr>
+                                    <th class="text-center" width="3%">ID</th>
+                                    <th class="text-center" width="8%">英文名称</th>
+                                    <th class="text-center" width="10%">中文名称</th>
+                                    <th class="text-center" width="8%">表单类型</th>
+                                    <th class="text-center" width="8%">配置类型</th>
+                                    <th class="text-center">可选值</th>
+                                    <th class="text-center">默认值</th>
+                                    <th class="text-center" width="4%">排序</th>
+                                    <th class="text-center" width="8%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {volist name="confRes" id="confs"}
+                                    <tr id="{$confs.id}">
+                                        <td align="center">{$confs.id}</td>
+                                        <td align="center">{$confs.ename}</td>
+                                        <td align="center">{$confs.cname}</td>
+                                        <td align="center">{$confs.form_type}</td>
+
+                                        <td align="center">
+                                            {if condition="$confs['conf_type'] eq 1"}
+                                                店铺配置
+                                            {else /}
+                                                商品配置
+                                            {/if}
+                                        </td>
+                                        <td align="center">{$confs.values}</td>
+                                        <td align="center">{$confs.value}</td>
+                                        <td align="center">
+                                            <input type="text" name="sort[{$confs.id}]" value="{$confs.sort}"  style="width:55px;text-align: center;" />
+                                        </td>
+                                        <td align="center">
+                                            <a href="{:url('edit',array('id'=>$confs['id']))}" class="btn btn-azure btn-sm shiny">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a href="#" onClick="ajaxdel(this);" class="btn btn-darkorange btn-sm shiny">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {/volist}
+                                <tr>
+                                <td colspan="9" align="right" style="padding-right:8.8%;">
+                                    <input  class="btn btn-primary btn-sm shiny" type="button" id='sort' value='提交'>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div style="padding-top: 15px;text-align: right;">
+                    {$confRes->render()}
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+		</div>	
+	</div>
+
+	    <!--Basic Scripts-->
+    <script src="__admin__/style/jquery_002.js"></script>
+    <script src="__admin__/style/bootstrap.js"></script>
+    <script src="__admin__/style/jquery.js"></script>
+    <!--Beyond Scripts-->
+    <script src="__admin__/style/beyond.js"></script>
+    <script src="__admin__/layer/layer.js"></script>
+    <script type="text/javascript">
+        $("#sort").click(function(){
+            $.ajax({
+                type:"post",
+                url:"{:url('conf/lst')}",
+                data:$("#myform").serialize(),
+                success:function(data){
+                    if(data.error==1){
+                        layer.msg(data.msg, {icon: 1});
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);                         
+                    }
+                }
+            })
+        })
+        function ajaxdel(obj){
+            layer.confirm('你确定要删除吗', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                var tr=$(obj).parent().parent();
+                var id=tr.attr('id');
+                $.ajax({
+                    url:"{:url('conf/del')}",
+                    type:"post",
+                    data:{'id':id},
+                    success:function(data){
+                        if(data.error==0){
+                            tr.remove();
+                            layer.msg(data.msg, {icon: 1});
+                            /*setTimeout(function(){
+                                window.location.reload();
+                            },2000);*/
+                        }else{
+                            layer.msg(data.msg, {icon: 2});
+                        }
+                    }
+                })
+                
+            });
+        }
+    </script>
+
+
+</body></html>

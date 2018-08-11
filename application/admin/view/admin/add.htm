@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html><head>
+        <meta charset="utf-8">
+    <title>Wshop</title>
+
+    <meta name="description" content="Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--Basic Styles-->
+    <link href="__admin__/style/bootstrap.css" rel="stylesheet">
+    <link href="__admin__/style/font-awesome.css" rel="stylesheet">
+    <link href="__admin__/style/weather-icons.css" rel="stylesheet">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="__admin__/style/beyond.css" rel="stylesheet" type="text/css">
+    <link href="__admin__/style/demo.css" rel="stylesheet">
+    <link href="__admin__/style/typicons.css" rel="stylesheet">
+    <link href="__admin__/style/animate.css" rel="stylesheet">
+    
+</head>
+<body>
+    <!-- 头部 -->
+    
+    {include file="common/top"}
+    <!-- /头部 -->
+    
+    <div class="main-container container-fluid">
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            {include file="common/left"}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                                        <li>
+                        <a href="{:url('index/index')}">系统</a>
+                    </li>
+                                        <li>
+                        <a href="{:url('lst')}">管理员管理</a>
+                    </li>
+                                        <li class="active">添加管理员</li>
+                                        </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+                    
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="widget">
+            <div class="widget-header bordered-bottom bordered-blue">
+                <span class="widget-caption">添加管理员</span>
+            </div>
+            <div class="widget-body">
+                <div id="horizontal-form">
+                    <form class="form-horizontal" id='myform'  enctype="multipart/form-data" role="form" >
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label no-padding-right">所属用户组</label>
+                            <div class="col-sm-6">
+                                <select name="groupid">
+                                    <option>请选择</option>
+                                    {volist name="group" id="group"}
+                                        <option value="{$group.id}">{$group.title}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label no-padding-right">用户名</label>
+                            <div class="col-sm-6">
+                                <input class="form-control"  placeholder="" name="uname" required="" type="text" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label no-padding-right">用户密码</label>
+                            <div class="col-sm-6">
+                                <input class="form-control"  placeholder="" name="password" required="" type="text" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label no-padding-right">启用状态</label>
+                            <div class="col-sm-6">
+                                <div class="radio" style="float: left; padding-right: 10px;">
+                                    <label>
+                                        <input name="status" type="radio"   value='1'>
+                                        <span class="text">启用 </span>
+                                    </label>
+                                </div>
+                                <div class="radio" style="float:left;">
+                                    <label>
+                                        <input name="status" type="radio" checked="checked"  class="inverted" value='0'>
+                                        <span class="text">禁用 </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button"  id='preservation' class="btn btn-default">保存信息</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>  
+    </div>
+
+    <!--Basic Scripts-->
+    <script src="__admin__/style/jquery_002.js"></script>
+    <script src="__admin__/style/bootstrap.js"></script>
+    <script src="__admin__/style/jquery.js"></script>
+    <!--Beyond Scripts-->
+    <script src="__admin__/style/beyond.js"></script>
+    <script src="__admin__/layer/layer.js"></script>
+    <!-- 缩略图上传 end-->
+    <script type="text/javascript">
+        $("#preservation").click(function(){
+            $.ajax({
+                type:"post",
+                url:"{url('admin/add')}",
+                data:$("#myform").serialize(),
+                success:function(data){
+                    if(data.code==1){
+                        layer.msg(data.msg,{
+                            icon:1,
+                            time:3000
+                        },function(){
+                            $(location).attr('href', "{:url('admin/lst')}");
+                        });
+                    }else{
+                        layer.msg(data.msg,{
+                            icon:2,
+                            time:3000
+                        })
+                    }
+                }
+            })
+        })
+    </script>
+</body></html>
